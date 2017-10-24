@@ -2,9 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+          maximum-scale=1.0, user-scalable=0">
     <title>Search</title>
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="Font-Awesome-3.2.1/css/font-awesome.min.css">
+    <script src="node_modules/vue/dist/vue.js"></script>
 </head>
 <body>
-
+<div id="app">
+    <div id="search">
+        <input v-model="searchStr" @input="ss" type="text" id="searchIN">
+    </div>
+    <span id="souSuo"><i class="icon-search"></i></span>
+    <div id="content">
+        <div v-for="item in array2" class="box">
+            <div class="img">
+                <img :src='item.image' alt="" >
+            </div>
+            <p>{{item.title}}</p>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        mounted:function (){
+            for(var i in this.array){
+                this.array2.push(this.array[i]);
+            }
+        },
+        el:"#app",
+        data: {
+            array: [{
+                title: "What You Need To Know About CSS Variables",
+                url: "http://tutorialzine.com/2016/03/what-you-need-to-know-about-css-variables/",
+                image: 'https://tutorialzine.com/media/2016/03/css-variables.jpg'
+            },
+                {
+                    title: "Freebie: 4 Great Looking Pricing Tables",
+                    url: "http://tutorialzine.com/2016/02/freebie-4-great-looking-pricing-tables/",
+                    image: 'https://tutorialzine.com/media/2016/02/great-looking-pricing-tables.jpg'
+                },
+                {
+                    title: "20 Interesting JavaScript and CSS Libraries for February 2016",
+                    url: "http://tutorialzine.com/2016/02/20-interesting-javascript-and-css-libraries-for-february-2016/",
+                    image: 'https://tutorialzine.com/media/2016/02/interesting-resources-february.jpg'
+                },
+                {
+                    title: "Quick Tip: The Easiest Way To Make Responsive Headers",
+                    url: "http://tutorialzine.com/2016/02/quick-tip-easiest-way-to-make-responsive-headers/",
+                    image: 'https://tutorialzine.com/media/2016/02/quick-tip-responsive-headers.png'
+                },
+                {
+                    title: "Learn SQL In 20 Minutes",
+                    url: "http://tutorialzine.com/2016/01/learn-sql-in-20-minutes/",
+                    image: 'https://tutorialzine.com/media/2016/01/learn-sql-20-minutes.png'
+                },
+                {
+                    title: "Creating Your First Desktop App With HTML, JS and Electron",
+                    url: "http://tutorialzine.com/2015/12/creating-your-first-desktop-app-with-html-js-and-electron/",
+                    image: 'https://tutorialzine.com/media/2015/12/creating-your-first-desktop-app-with-electron.png'
+                }],
+            searchStr:"",
+            array2:[]
+            },
+            methods: {
+                ss: function (event) {
+                    this.array2=[];
+                    this.searchStr = event.target.value;
+                    console.log(this.searchStr)
+                    var re=new RegExp(this.searchStr,"ig");
+                    if (this.searchStr.length == 0) {
+                        for(var i in this.array){
+                            this.array2.push(this.array[i]);
+                        }
+                    } else {
+                        console.log(re)
+                        for (var i in this.array) {
+                            if (re.test(this.array[i]['title'])) {
+                                this.array2.push(this.array[i]);
+                            }
+                        }
+                    }
+                    console.log(this.array2);
+                }
+            }
+    });
+</script>
 </body>
 </html>
